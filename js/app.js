@@ -71,8 +71,10 @@ function nav_bulid(){
     let arr =  Section_info(sections[i]);
     // Create new list element in ul
     let listItem = document.createElement('li');
-    // add anchor into each list with (href=id & value = section name)
-    listItem.innerHTML = `<a class='menu__link' href='#${arr[0]}'>${arr[1]}</a>`;
+    // add anchor into each list with (data-id = id & value = section name)
+    listItem.innerHTML = `<a class='menu__link' data-id='${arr[0]}'>${arr[1]}</a>`;
+   
+
     //Add the New list to Navbar
     navbar.appendChild(listItem);
   }
@@ -97,9 +99,16 @@ function setActiveClass(){
 
 
 // Scroll to anchor ID using scrollTO event
-document.addEventListener('scroll', function(){
-    setActiveClass();
-});
+function scrollToElement(event){
+
+    //add EventListener to bavbarList
+    navbar.addEventListener('click', function(event){
+    //set sectionId  
+    const sectionId = event.target.getAttribute('data-id');
+    // Scrolling to Section smoothly
+    document.getElementById(sectionId).scrollIntoView({behavior: "smooth"});
+  })       
+}
 
 /**
  * End Main Functions
@@ -107,9 +116,17 @@ document.addEventListener('scroll', function(){
  *
 */
 
+
+
 // Build menu
 nav_bulid();
 
 // Scroll to section on link click
+scrollToElement();
+
+
 
 // Set sections as active
+document.addEventListener('scroll', function(){
+    setActiveClass();
+});
